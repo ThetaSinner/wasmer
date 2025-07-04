@@ -2,8 +2,8 @@
 fn build_wamr() {
     use bindgen::callbacks::ParseCallbacks;
     const WAMR_ZIP: &str =
-        "https://github.com/bytecodealliance/wasm-micro-runtime/archive/refs/tags/WAMR-2.2.0.zip";
-    const ZIP_NAME: &str = "wasm-micro-runtime-WAMR-2.2.0";
+        "https://github.com/bytecodealliance/wasm-micro-runtime/archive/refs/tags/WAMR-2.3.1.zip";
+    const ZIP_NAME: &str = "wasm-micro-runtime-WAMR-2.3.1";
 
     use cmake::Config;
     use std::{env, path::PathBuf};
@@ -100,27 +100,6 @@ fn build_wamr() {
         dst.define("WAMR_BUILD_PLATFORM", "windows");
         dst.define("WAMR_BUILD_LIBC_UVWASI", "0");
     }
-
-    //if target_os == "ios" {
-    //    // XXX: Hacky
-    //    //
-    //    // Compiling wamr targeting `aarch64-apple-ios` results in
-    //    //
-    //    // ```
-    //    //  clang: error: unsupported option '-mfloat-abi=' for target 'aarch64-apple-ios'
-    //    // ```
-    //    // So, here, we simply remove that setting.
-    //    //
-    //    // See: https://github.com/bytecodealliance/wasm-micro-runtime/pull/3889
-    //    let mut lines = vec![];
-    //    let cmake_file_path = wamr_platform_dir.join("CMakeLists.txt");
-    //    for line in std::fs::read_to_string(&cmake_file_path).unwrap().lines() {
-    //        if !line.contains("-mfloat-abi=hard") {
-    //            lines.push(line.to_string())
-    //        }
-    //    }
-    //    std::fs::write(cmake_file_path, lines.join("\n")).unwrap();
-    //}
 
     let dst = dst.build();
 
